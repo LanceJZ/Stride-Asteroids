@@ -11,7 +11,7 @@ Hierarchy:
         - ref!! becb5887-80e6-403b-9494-0b41a5d3c7a2
         - ref!! 9a9803e6-2821-4e05-8c8d-f4deef4042e3
         - ref!! b81e311d-e1fe-4947-ba28-b02eb5ce6e40
-        - ref!! 4d2a1a4a-5373-476f-b342-2ce836154142
+        - ref!! c567d5f4-b667-4b55-ac8f-5e29c3c78646
         - ref!! 8e74fed7-f1c7-4ec0-8abd-b51f0f672cde
     Parts:
         -   Entity:
@@ -31,25 +31,13 @@ Hierarchy:
                         Resolution: {X: 1024.0, Y: 768.0, Z: 1000.0}
                         Size: {X: 1.0, Y: 1.0, Z: 1.0}
         -   Entity:
-                Id: 4d2a1a4a-5373-476f-b342-2ce836154142
-                Name: UFO
-                Components:
-                    a3a08a694ed87a801c598b1652d5f3c4: !TransformComponent
-                        Id: cc671207-b44d-4af1-815a-be530a18649a
-                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
-                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
-                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
-                        Children: {}
-                    3eb70d14f8a4ae71c62c43fc8979b678: !Stride_Asteroids.UFO,Stride_Asteroids
-                        Id: a137cf2f-0c41-465c-acd8-ee9f4fc97304
-        -   Entity:
                 Id: 64c43f6a-bb70-4a0f-9584-24be818dc9b0
                 Name: Camera
                 Components:
                     6207fa1b367cc184c5ca3022d267146d: !TransformComponent
                         Id: 6193b24e-8950-4f78-b3a7-3ebfe0e3b8c0
                         Position: {X: 0.0, Y: 0.0, Z: -1.2}
-                        Rotation: {X: 1.0, Y: 0.0, Z: 0.0, W: -4.371139E-08}
+                        Rotation: {X: 1.91068547E-15, Y: 1.0, Z: 4.371139E-08, W: -4.371139E-08}
                         Scale: {X: 1.0, Y: 1.0, Z: 1.0}
                         Children: {}
                     fcedf37eddc91991fe5c9c687bb05a45: !CameraComponent
@@ -101,9 +89,10 @@ Hierarchy:
                         Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
                         Scale: {X: 1.0, Y: 1.0, Z: 1.0}
                         Children: {}
-                    4b5117899a6ee91041a708ee29a6d666: !Stride_Asteroids.Main,Stride_Asteroids
+                    05867c341561944c3271c0ecb1127b07: !Stride_Asteroids.Main,Stride_Asteroids
                         Id: e09f26c0-34e9-435e-b673-0300e0c2837a
                         rockScriptList: {}
+                        UFOScript: null
                         PlayerScript: null
                         random: {}
         -   Entity:
@@ -116,7 +105,7 @@ Hierarchy:
                         Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
                         Scale: {X: 1.0, Y: 1.0, Z: 1.0}
                         Children: {}
-                    cb3cea9749655053682092b2acc22cf4: !Stride_Asteroids.Rocks,Stride_Asteroids
+                    c5c168fd79a14e7169c6e55a72c1a3cf: !Stride_Asteroids.Rocks,Stride_Asteroids
                         Id: 3314901e-99e4-458f-95f6-cb10f49c8862
         -   Entity:
                 Id: becb5887-80e6-403b-9494-0b41a5d3c7a2
@@ -133,3 +122,15 @@ Hierarchy:
                         Model: 1a5ee78f-6525-4c1a-980d-b2b21e4aba31:BackGround
                         IsShadowCaster: false
                         Materials: {}
+        -   Entity:
+                Id: c567d5f4-b667-4b55-ac8f-5e29c3c78646
+                Name: UFOControler
+                Components:
+                    657e3edbd42b30821481fe8a632af36c: !TransformComponent
+                        Id: 5c95b16e-1cf9-423e-9ca4-18419e9eca55
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    5625e26584fc5dd645188463c1633428: !Stride_Asteroids.UFOControl,Stride_Asteroids
+                        Id: a10f5b49-ec3f-4095-9b14-ca922d7a898b

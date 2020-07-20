@@ -16,7 +16,7 @@ namespace Stride_Asteroids
     {
         int points;
         float speed;
-        float adj = 0.02f;
+        float adj = 0.0666f;
         Main.RockSize size;
         Player player;
         UFO UFO;
@@ -30,13 +30,22 @@ namespace Stride_Asteroids
         }
         public override void Start()
         {
-
+            radius = 0.68f * adj;
         }
 
         public override void Update()
         {
             base.Update();
             CheckForEdge();
+
+
+            if (IsActive() && !hit)
+            {
+                if (hit = CheckCollisions())
+                {
+                    Disable();
+                }
+            }
         }
 
         public void Spawn(Vector3 position, Main.RockSize size)
@@ -82,7 +91,7 @@ namespace Stride_Asteroids
             UpdatePR();
         }
 
-        public void Destroy()
+        public void Disable()
         {
             rockMesh.Enabled = false;
             hit = false;
@@ -122,31 +131,48 @@ namespace Stride_Asteroids
             rockMesh.Enabled = false;
         }
 
+        bool CheckCollisions()
+        {
+            foreach (Shot shot in Main.instance.PlayerScript.Shots)
+            {
+                if (shot.IsActive())
+                {
+                    if (CirclesIntersect(shot.Position, shot.Radius))
+                    {
+                        shot.Disable();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         Vector3 SetVelocity(float speed)//for Rock only.
         {
             float amt = Main.instance.RandomMinMax(speed * 0.15f, speed);
             return Main.instance.SetVelocityFromAngle(amt);
         }
-
+        #region RockModels
         void RockOne()
         {
             // VertexPositionNormalTexture is the layout that the engine uses in the shaders
             Buffer<VertexPositionNormalTexture> vBuffer = Stride.Graphics.Buffer.Vertex.New(GraphicsDevice,
                 new VertexPositionNormalTexture[]
             {
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.5f * adj, 3.0f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(0.0f, 2.2f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.5f * adj, 3.0f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.5f * adj, 0.7f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.9f * adj, -0.7f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.5f * adj, -3.0f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(0.7f * adj, -2.1f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.5f * adj, -3.0f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, -1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.1f * adj, 0.0f, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.352f * adj, 0.704f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.0f, 0.516f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.352f * adj, 0.704f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.63f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.352f * adj, 0.164f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.68f * adj, -0.1f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.352f * adj, -0.7f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.164f * adj, -0.6f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.352f * adj, -0.704f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, -0.47f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.494f * adj, -0.0f, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
             });
 
             MeshDraw meshDraw = new MeshDraw
@@ -171,17 +197,17 @@ namespace Stride_Asteroids
             Buffer<VertexPositionNormalTexture> vBuffer = Stride.Graphics.Buffer.Vertex.New(GraphicsDevice,
                 new VertexPositionNormalTexture[]
             {
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.4f * adj, 2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(0.0f, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.5f * adj, 2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.2f * adj, 0.0f, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.9f * adj, -1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-0.7f * adj, -2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.4f * adj, -2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, -1.4f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.328f * adj, 0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.0f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.352f * adj, 0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.516f * adj, 0.0f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.68f * adj, -0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.164f * adj, -0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.328f * adj, -0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, -0.328f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
             });
 
             MeshDraw meshDraw = new MeshDraw
@@ -206,19 +232,19 @@ namespace Stride_Asteroids
             Buffer<VertexPositionNormalTexture> vBuffer = Stride.Graphics.Buffer.Vertex.New(GraphicsDevice,
                 new VertexPositionNormalTexture[]
             {
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(0.7f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.6f * adj, 2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-0.8f * adj, 2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.9f * adj, 0.8f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-0.8f * adj, 0.0f, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-2.9f * adj, -1.4f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.4f * adj, -2.8f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-0.7f * adj, -2.1f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.5f * adj, -2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, -0.8f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 1.5f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.3f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.376f * adj, 0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.188f * adj, 0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.68f * adj, 0.188f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.188f * adj, 0.0f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.68f * adj, -0.328f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.328f * adj, -0.658f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.164f * adj, -0.48f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.352f * adj, -0.55f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, -0.188f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.352f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
             });
 
             MeshDraw meshDraw = new MeshDraw
@@ -243,19 +269,19 @@ namespace Stride_Asteroids
             Buffer<VertexPositionNormalTexture> vBuffer = Stride.Graphics.Buffer.Vertex.New(GraphicsDevice,
                 new VertexPositionNormalTexture[]
             {
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 0.8f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(0.6f * adj, 2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.5f * adj, 2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-3.0f * adj, 0.7f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-3.0f * adj, -0.7f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.6f * adj, -2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(-1.4f * adj, -2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(0.0f * adj, -2.9f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(0.0f * adj, -0.8f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.4f * adj, -2.8f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, -0.7f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(1.5f * adj, 0.0f, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
-                 new VertexPositionNormalTexture(new Vector3(2.9f * adj, 0.8f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.188f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.26f * adj, 0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.37f * adj, 0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.704f * adj, 0.2f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.704f * adj, -0.164f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.376f * adj, -0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.328f * adj, -0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.0f * adj, -0.68f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(0.0f * adj, -0.188f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.328f * adj, -0.658f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, -0.164f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.352f * adj, 0.0f, 0), new Vector3(0, 1, 1), new Vector2(0, 0)),
+                 new VertexPositionNormalTexture(new Vector3(-0.68f * adj, 0.188f * adj, 0), new Vector3(0, 1, 1), new Vector2(0, 0))
             });
 
             MeshDraw meshDraw = new MeshDraw
@@ -273,6 +299,6 @@ namespace Stride_Asteroids
             model.Add(mesh);
             rockMesh = new ModelComponent(model);
         }
-
+        #endregion
     }
 }

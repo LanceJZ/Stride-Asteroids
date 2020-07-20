@@ -1,0 +1,20 @@
+!PrefabAsset
+Id: ff0d4d04-7fe9-4bac-8f66-489b2fda199e
+SerializedVersion: {Stride: 3.1.0.1}
+Tags: []
+Hierarchy:
+    RootParts:
+        - ref!! eb74f615-7965-4783-a7b9-89b1cdd2408c
+    Parts:
+        -   Entity:
+                Id: eb74f615-7965-4783-a7b9-89b1cdd2408c
+                Name: UFO
+                Components:
+                    a3a08a694ed87a801c598b1652d5f3c4: !TransformComponent
+                        Id: 76c95327-8531-4746-b50b-84124603e077
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    945925d38b414303f890ecdd5ba46019: !Stride_Asteroids.UFO,Stride_Asteroids
+                        Id: f6b31a81-9ecd-4919-9433-8fd80b3db4ea

@@ -14,6 +14,7 @@ namespace Stride_Asteroids
         readonly Random TherandomNG = new Random(DateTime.Now.Millisecond);
         public static Main instance;
         public List<Rock> rockScriptList = new List<Rock>();
+        public UFO UFOScript;
         Prefab m_PlayerPrefab;
         Player playerScript;
 

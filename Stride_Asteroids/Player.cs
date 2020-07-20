@@ -23,6 +23,8 @@ namespace Stride_Asteroids
         ModelComponent flameMesh;
         TimerTick flameTimer;
 
+        public List<Shot> Shots { get => shotsScriptList; }
+
         public override void Start()
         {
             flameTimer = new TimerTick();
@@ -137,11 +139,11 @@ namespace Stride_Asteroids
         {
             Buffer<VertexPositionNormalTexture> vBuffer;
             MeshDraw meshDraw;
-            float multi = 1.5f;
-            float shipTip = 0.0115f * multi;
-            float shipBWidth = 0.0075f * multi;
-            float shipMid = -0.008f * multi;
-            float shipMidWidth = 0.004f * multi;
+            float multi = 0.0666f;
+            float shipTip = 0.25f * multi;
+            float shipBWidth = 0.15f * multi;
+            float shipMid = -0.16f * multi;
+            float shipMidWidth = 0.125f * multi;
 
             // VertexPositionNormalTexture is the layout that the engine uses in the shaders
             // Ship

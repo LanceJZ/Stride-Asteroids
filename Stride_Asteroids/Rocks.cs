@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Stride.Core.Mathematics;
-using Stride.Input;
 using Stride.Engine;
 
 namespace Stride_Asteroids
@@ -19,7 +18,7 @@ namespace Stride_Asteroids
         {
             Main.instance.rockScriptList = rockScriptList;
             rockPrefab = Content.Load<Prefab>("Rock");
-            SpawnRocks(Vector3.Zero, Main.RockSize.Large, 4);
+            SpawnRocks(Vector3.Zero, Main.RockSize.Large, 8);
         }
 
         public override void Update()

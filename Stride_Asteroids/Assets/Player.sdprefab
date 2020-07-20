@@ -16,5 +16,6 @@ Hierarchy:
                         Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
                         Scale: {X: 1.0, Y: 1.0, Z: 1.0}
                         Children: {}
-                    38ed4a536328bb30fe618a79812be370: !Stride_Asteroids.Player,Stride_Asteroids
+                    81e9e365398b1b1222848201ee9309c2: !Stride_Asteroids.Player,Stride_Asteroids
                         Id: 50ff2133-5129-4c2b-9563-268a5985f359
+                        Shots: {}
