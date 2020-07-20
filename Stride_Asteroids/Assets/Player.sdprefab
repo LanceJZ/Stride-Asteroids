@@ -1,0 +1,20 @@
+!PrefabAsset
+Id: e13e1ee9-a089-41cd-a3a9-574633bf3106
+SerializedVersion: {Stride: 3.1.0.1}
+Tags: []
+Hierarchy:
+    RootParts:
+        - ref!! dc7093b6-8745-4338-a0a2-82d2f1b54514
+    Parts:
+        -   Entity:
+                Id: dc7093b6-8745-4338-a0a2-82d2f1b54514
+                Name: Player
+                Components:
+                    ca8bfa763be4a853edf368bd218d44e2: !TransformComponent
+                        Id: 2fe6a81f-fd94-45e8-9e28-4f2fea20896b
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    38ed4a536328bb30fe618a79812be370: !Stride_Asteroids.Player,Stride_Asteroids
+                        Id: 50ff2133-5129-4c2b-9563-268a5985f359

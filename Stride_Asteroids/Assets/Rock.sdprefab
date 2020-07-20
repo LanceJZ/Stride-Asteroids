@@ -1,0 +1,20 @@
+!PrefabAsset
+Id: df36974d-0fda-475e-8452-728bef569ae4
+SerializedVersion: {Stride: 3.1.0.1}
+Tags: []
+Hierarchy:
+    RootParts:
+        - ref!! 74fa15cb-167c-48ca-91e8-34ac96044299
+    Parts:
+        -   Entity:
+                Id: 74fa15cb-167c-48ca-91e8-34ac96044299
+                Name: Rock
+                Components:
+                    cf7305107f213fc782d273c77144171a: !TransformComponent
+                        Id: d77b2d7d-5b69-4ca8-8fd9-41ad98766d56
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    7bbff91ca94068842d255171c1e255a7: !Stride_Asteroids.Rock,Stride_Asteroids
+                        Id: 0466a6e4-c0ae-4fd8-97b2-aa8233977867

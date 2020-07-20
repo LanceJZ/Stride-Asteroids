@@ -1,0 +1,20 @@
+!PrefabAsset
+Id: 44d9517c-6af8-41ad-9541-acf2d9067b96
+SerializedVersion: {Stride: 3.1.0.1}
+Tags: []
+Hierarchy:
+    RootParts:
+        - ref!! 0a56b73c-a02a-4ce1-9364-28ca361cae64
+    Parts:
+        -   Entity:
+                Id: 0a56b73c-a02a-4ce1-9364-28ca361cae64
+                Name: Shot
+                Components:
+                    f5215f4babd9080abaf20b6007651ad6: !TransformComponent
+                        Id: cb7e511d-bbf3-4e1e-8b99-72529e53fc48
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    cc26cecc0efaea7f78a52316739a5feb: !Stride_Asteroids.Shot,Stride_Asteroids
+                        Id: e18c51b1-4dcb-44e3-8238-7bdf10e0e8f4

@@ -1,0 +1,12 @@
+!SpriteFont
+Id: 0c1a8a86-5fde-4d63-ae52-157862df92f0
+SerializedVersion: {Stride: 2.0.0.0}
+Tags: []
+FontSource: !FileFontProvider
+    Source: !file Hyperspace.ttf
+FontType: !RuntimeRasterizedSpriteFontType
+    Size: 40.0
+    AntiAlias: Aliased
+DefaultCharacter: 0
+LineGapFactor: 0.0
+LineGapBaseLineFactor: 0.0
