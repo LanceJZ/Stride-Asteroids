@@ -14,24 +14,96 @@ namespace Stride_Asteroids
 {
     public class UFO : Actor
     {
-        float adj = 0.0666f;
         Entity UFOentity;
         ModelComponent UFOMesh;
         ModelComponent UFOTIMesh;
         ModelComponent UFOBIMesh;
+        TimerTick vectorTimer = new TimerTick();
+        float vectorAmount = 3.15f;
+        TimerTick fireTimer = new TimerTick();
+        float fireAmount = 2.75f;
+        float adj = 0.0666f;
+        float speed;
+        int points;
+        bool done;
+
+        UFOType type;
+        enum UFOType
+        {
+            Small,
+            Large
+        }
 
         public override void Start()
         {
-            radius = 0.446f * adj;
             ModelCreation();
+            Disable();
         }
 
         public override void Update()
         {
-            base.Update();
-            CheckForEdge();
-            velocity.X = 0.1f;
-            position.Y = 0.2f;
+            if (IsActive() && !hit)
+            {
+                base.Update();
+
+                CheckForCollusion();
+                
+                if (position.X > edge.X || position.X < -edge.X)
+                {
+                    Disable();
+                }
+
+                CheckForEdge();
+                vectorTimer.Tick();
+                fireTimer.Tick();
+
+                if (vectorTimer.TotalTime.Seconds > vectorAmount)
+                {
+                    vectorTimer.Reset();
+                    ChangeVector();
+                }
+            }
+        }
+
+        public void Spawn(int spawnCount)
+        {
+            float spawnPercent = (float)(Math.Pow(0.915, spawnCount / (Main.instance.Wave + 1)) * 100);
+
+            if (Main.instance.RandomMinMax(0, 99) < spawnPercent - (Main.instance.Score / 400))
+            {
+                
+                type = UFOType.Large;
+                UFOentity.Transform.Scale = Vector3.One;
+                points = 200;
+                radius = 0.446f * adj;
+            }
+            else
+            {
+                
+                type = UFOType.Small;
+                UFOentity.Transform.Scale = Vector3.One * 0.5f;
+                points = 1000;
+                radius = (0.446f * adj) * 0.5f;
+            }
+
+            float posY = Main.instance.RandomMinMax(-edge.Y * 0.25f, edge.Y * 0.25f);
+            float posX;
+
+            if (Main.instance.RandomMinMax(0, 10) > 5)
+            {
+                posX = -edge.X;
+                speed = 0.03666f;
+            }
+            else
+            {
+                posX = edge.X;
+                speed = -0.03666f;
+            }
+
+            velocity.X = speed;
+            position = new Vector3(posX, posY, 0);
+            UpdatePR();
+            Enable();
         }
 
         public bool IsActive()
@@ -42,13 +114,57 @@ namespace Stride_Asteroids
                 return false;
         }
 
-        void Disable()
+        public void Disable()
         {
             UFOMesh.Enabled = false;
             UFOTIMesh.Enabled = false;
             UFOBIMesh.Enabled = false;
             hit = false;
+            done = true;
+        }
 
+        void CheckForCollusion()
+        {
+            foreach(Shot shot in Main.instance.PlayerScript.Shots)
+            {
+                if (CirclesIntersect(shot.Position, shot.Radius))
+                {
+                    shot.Disable();
+                    Disable();
+                }
+            }
+        }
+
+        void ChangeVector()
+        {
+            if (Main.instance.RandomMinMax(0, 10) < 5)
+            {
+                if ((int)(velocity.Y * 100) == 0)
+                {
+                    if (Main.instance.RandomMinMax(0, 10) < 5)
+                    {
+                        velocity.Y = speed;
+                    }
+                    else
+                    {
+                        velocity.Y = -speed;
+                    }
+                }
+                else
+                {
+                    velocity.Y = 0;
+                }
+            }
+
+        }
+
+        void Enable()
+        {
+            UFOMesh.Enabled = true;
+            UFOTIMesh.Enabled = true;
+            UFOBIMesh.Enabled = true;
+            hit = false;
+            done = false;
         }
 
         void ModelCreation()

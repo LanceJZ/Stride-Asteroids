@@ -18,7 +18,7 @@ namespace Stride_Asteroids
         {
             Main.instance.rockScriptList = rockScriptList;
             rockPrefab = Content.Load<Prefab>("Rock");
-            SpawnRocks(Vector3.Zero, Main.RockSize.Large, 8);
+            SpawnRocks(Vector3.Zero, Main.RockSize.Large, 4);
         }
 
         public override void Update()

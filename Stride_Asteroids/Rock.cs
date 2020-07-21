@@ -145,6 +145,15 @@ namespace Stride_Asteroids
                 }
             }
 
+            if (Main.instance.UFOScript.IsActive())
+            {
+                if (CirclesIntersect(Main.instance.UFOScript.Position, Main.instance.UFOScript.Radius))
+                {
+                    Main.instance.UFOScript.Disable();
+                    return true;
+                }
+            }
+
             return false;
         }
 

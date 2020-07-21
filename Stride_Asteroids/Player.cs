@@ -117,10 +117,6 @@ namespace Stride_Asteroids
                 if (!shot.IsActive())
                 {
                     float speed = 0.6f;
-                    //Vector3 dir = new Vector3((float)Math.Cos(rotation) * speed,
-                    //    (float)Math.Sin(rotation) * speed, 0);//replace with function.
-                    //Vector3 offset = new Vector3((float)Math.Cos(rotation) * radius,
-                    //    (float)Math.Sin(rotation) * radius, 0);//replace with function.
                     Vector3 dir = Main.instance.VelocityFromAngle(rotation, speed);
                     Vector3 offset = Main.instance.VelocityFromAngle(rotation, radius);
                     shot.Spawn(position + offset, dir + (velocity * 0.75f), 1.55f);
@@ -172,9 +168,9 @@ namespace Stride_Asteroids
             ship = new Entity();
             ship.Add(shipMesh);
 
-            float flame = -0.0095f * multi;
-            float flameTip = -0.018f * multi;
-            float flameWidth = 0.003f * multi;
+            float flame = -0.16f * multi;
+            float flameTip = -0.36f * multi;
+            float flameWidth = 0.075f * multi;
 
             // VertexPositionNormalTexture is the layout that the engine uses in the shaders
             // Flames
