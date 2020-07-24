@@ -15,7 +15,19 @@ ExplicitFolders: []
 Bundles: []
 TemplateFolders: []
 RootAssets:
-    - 44d9517c-6af8-41ad-9541-acf2d9067b96:Shot
-    - df36974d-0fda-475e-8452-728bef569ae4:Rock
-    - e13e1ee9-a089-41cd-a3a9-574633bf3106:Player
-    - ff0d4d04-7fe9-4bac-8f66-489b2fda199e:UFO
+    - 0c1a8a86-5fde-4d63-ae52-157862df92f0:Vector
+    - 119d46b9-baae-4dc2-b6f0-d2628e2ebaa7:Sounds/UFOShot
+    - 43258586-7edf-4554-b513-005d4cddef39:Sounds/BonusShip
+    - 44d9517c-6af8-41ad-9541-acf2d9067b96:Prefabs/Shot
+    - 5d2ff0bf-d52f-4bc4-b511-866495c4168b:Sounds/UFOLarge
+    - a655471d-75bb-442f-a350-56371419c749:Sounds/UFOSmall
+    - b17071c1-da10-497e-8eff-aeec98ef5876:Sounds/UFOExplosion
+    - b4016a07-9da7-4bfd-8aa0-008f1052bb53:Sounds/Player Thrust
+    - b5ff85a7-8966-4949-8cba-01a393cf1f22:Sounds/RockExplosion
+    - de1dd6a4-2e5b-4ecf-866f-caf392cdcfa6:Sounds/Thrust
+    - df36974d-0fda-475e-8452-728bef569ae4:Prefabs/Rock
+    - e13e1ee9-a089-41cd-a3a9-574633bf3106:Prefabs/Player
+    - e1d51dec-ea7e-4c05-b856-0a3b38319fad:Sounds/AsteroidsBackground
+    - f370afb4-cf54-49db-9903-aee3a73d206f:Sounds/PlayerExplosion
+    - fbab804f-bfb4-46ca-8e37-daee9474520d:Sounds/PlayerFire
+    - ff0d4d04-7fe9-4bac-8f66-489b2fda199e:Prefabs/UFO

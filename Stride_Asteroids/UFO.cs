@@ -9,11 +9,13 @@ using Stride.Games.Time;
 using Stride.Graphics;
 using Stride.Rendering;
 using Stride.Audio;
+using Stride.Core.Shaders.Ast;
 
 namespace Stride_Asteroids
 {
     public class UFO : Actor
     {
+        public Shot shotScript;
         Entity UFOentity;
         ModelComponent UFOMesh;
         ModelComponent UFOTIMesh;
@@ -24,6 +26,7 @@ namespace Stride_Asteroids
         float fireAmount = 2.75f;
         float adj = 0.0666f;
         float speed;
+        float shotSpeed = 0.3666f;
         int points;
         bool done;
 
@@ -38,6 +41,7 @@ namespace Stride_Asteroids
         {
             ModelCreation();
             Disable();
+            MakeShot();
         }
 
         public override void Update()
@@ -61,6 +65,12 @@ namespace Stride_Asteroids
                 {
                     vectorTimer.Reset();
                     ChangeVector();
+                }
+
+                if (fireTimer.TotalTime.Seconds > fireAmount)
+                {
+                    fireTimer.Reset();
+                    Fire();
                 }
             }
         }
@@ -121,6 +131,7 @@ namespace Stride_Asteroids
             UFOBIMesh.Enabled = false;
             hit = false;
             done = true;
+            Main.instance.UFOScript.ResetTimer();
         }
 
         void CheckForCollusion()
@@ -158,6 +169,52 @@ namespace Stride_Asteroids
 
         }
 
+        void Fire()
+        {
+            float angel = 0;
+
+            switch (type)
+            {
+                case UFOType.Large:
+                    angel = AutoFire();
+                    break;
+                case UFOType.Small:
+                    angel = AimedFire();
+                    break;
+            }
+
+            Vector3 dir = Main.instance.VelocityFromAngle(angel, shotSpeed);
+            Vector3 offset = Main.instance.VelocityFromAngle(angel, radius);
+
+            if (!shotScript.IsActive())
+            {
+                shotScript.Spawn(position + offset, dir, 1.45f);
+            }
+        }
+
+        float AutoFire()
+        {
+            return Main.instance.RandomRadian();
+        }
+
+        float AimedFire()
+        {
+            //Adjust accuracy according to score. By the time the score reaches 30,000, percent = 0.
+            float percentChance = 0.25f - (Main.instance.Score * 0.00001f);
+
+            if (percentChance < 0)
+            {
+                percentChance = 0;
+            }
+
+            Vector3 playerPos = Main.instance.PlayerScript.Position;
+
+            float fireRadian = ((float)Math.Atan2(playerPos.Y - Position.Y, playerPos.X -
+                Position.X) + Main.instance.RandomMinMax(-percentChance, percentChance));
+
+            return fireRadian;
+        }
+
         void Enable()
         {
             UFOMesh.Enabled = true;
@@ -165,6 +222,15 @@ namespace Stride_Asteroids
             UFOBIMesh.Enabled = true;
             hit = false;
             done = false;
+        }
+
+        void MakeShot()
+        {
+            Prefab shotPrefab = Content.Load<Prefab>("Prefabs/Shot");
+            Entity shotE;
+            shotE = (shotPrefab.Instantiate().First());
+            SceneSystem.SceneInstance.RootScene.Entities.Add(shotE);
+            shotScript = shotE.Components.Get<Shot>();
         }
 
         void ModelCreation()

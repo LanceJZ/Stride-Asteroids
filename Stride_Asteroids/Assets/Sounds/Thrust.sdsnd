@@ -1,0 +1,8 @@
+!Sound
+Id: de1dd6a4-2e5b-4ecf-866f-caf392cdcfa6
+SerializedVersion: {Stride: 2.0.0.0}
+Tags: []
+Source: !file ../../../../../Unity/Asteroids using DOTS/Assets/Sounds/Thrust.wav
+CompressionRatio: 15
+StreamFromDisk: false
+Spatialized: false

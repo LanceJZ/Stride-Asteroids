@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Stride.Core.Mathematics;
 using Stride.Input;
 using Stride.Engine;
+using Stride.UI.Controls;
+using Stride.Particles;
 
 namespace Stride_Asteroids
 {
@@ -14,7 +16,9 @@ namespace Stride_Asteroids
         readonly Random TherandomNG = new Random(DateTime.Now.Millisecond);
         public static Main instance;
         public List<Rock> rockScriptList = new List<Rock>();
-        public UFO UFOScript;
+        public Rocks rocksScript;
+        public UFOControl UFOScript;
+        public UIText UIScript;
         Prefab m_PlayerPrefab;
         Player playerScript;
 
@@ -27,7 +31,7 @@ namespace Stride_Asteroids
         bool gameOver;
 
         public int Score { get => score; }
-        public int Wave { get => wave; }
+        public int Wave { get => wave; set => wave = value; }
         public Player PlayerScript { get => playerScript; }
         public Random random { get => TherandomNG; }
 
@@ -45,10 +49,16 @@ namespace Stride_Asteroids
                 instance = this;
             }
 
-            m_PlayerPrefab = Content.Load<Prefab>("Player");
+            m_PlayerPrefab = Content.Load<Prefab>("Prefabs/Player");
             Entity player = m_PlayerPrefab.Instantiate().First();
             SceneSystem.SceneInstance.RootScene.Entities.Add(player);
             playerScript = player.Components.Get<Player>();
+        }
+
+        public void UpdateScore(int points)
+        {
+            score += points;
+            UIScript.Score(score);
         }
         /// <summary>
         /// Get a random float between min and max.

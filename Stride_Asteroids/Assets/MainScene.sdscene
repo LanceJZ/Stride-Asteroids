@@ -30,6 +30,9 @@ Hierarchy:
                         IsFullScreen: false
                         Resolution: {X: 1024.0, Y: 768.0, Z: 1000.0}
                         Size: {X: 1.0, Y: 1.0, Z: 1.0}
+                    30e2896bedfa51383702a2cee34ec12e: !Stride_Asteroids.UIText,Stride_Asteroids
+                        Id: 80ccfadb-2e86-43fb-ab69-3f9de4928374
+                        page: 38f46d03-1843-4f80-bb49-2375660f22bf:Page
         -   Entity:
                 Id: 64c43f6a-bb70-4a0f-9584-24be818dc9b0
                 Name: Camera
@@ -92,7 +95,10 @@ Hierarchy:
                     05867c341561944c3271c0ecb1127b07: !Stride_Asteroids.Main,Stride_Asteroids
                         Id: e09f26c0-34e9-435e-b673-0300e0c2837a
                         rockScriptList: {}
+                        rocksScript: null
                         UFOScript: null
+                        UIScript: null
+                        Wave: 0
                         PlayerScript: null
                         random: {}
         -   Entity:
@@ -134,3 +140,4 @@ Hierarchy:
                         Children: {}
                     5625e26584fc5dd645188463c1633428: !Stride_Asteroids.UFOControl,Stride_Asteroids
                         Id: a10f5b49-ec3f-4095-9b14-ca922d7a898b
+                        UFOScript: null

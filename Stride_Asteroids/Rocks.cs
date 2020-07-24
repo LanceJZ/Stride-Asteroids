@@ -11,19 +11,84 @@ namespace Stride_Asteroids
     public class Rocks : SyncScript
     {
         List<Rock> rockScriptList = new List<Rock>();
-
         Prefab rockPrefab;
+        int largeRockAmount = 2;
 
         public override void Start()
         {
             Main.instance.rockScriptList = rockScriptList;
-            rockPrefab = Content.Load<Prefab>("Rock");
-            SpawnRocks(Vector3.Zero, Main.RockSize.Large, 4);
+            Main.instance.rocksScript = this;
+            rockPrefab = Content.Load<Prefab>("Prefabs/Rock");
+            NewWaveSpawn();
         }
 
         public override void Update()
         {
 
+        }
+
+        public void ResetRocks()
+        {
+            DisableRocks();
+            largeRockAmount = 2;
+            NewWaveSpawn();
+        }
+
+        public void RockHit()
+        {
+            foreach (Rock rock in rockScriptList)
+            {
+                if (rock.IsActive())
+                {
+                    if (rock.Hit)
+                    {
+                        switch (rock.Size)
+                        {
+                            case Main.RockSize.Large:
+                                SpawnRocks(rock.Position, Main.RockSize.Medium, 2);
+                                break;
+                            case Main.RockSize.Medium:
+                                SpawnRocks(rock.Position, Main.RockSize.Small, 2);
+                                break;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            int rockCount = 0;
+
+            foreach (Rock rock in rockScriptList)
+            {
+                if (rock.IsActive() && !rock.Hit)
+                {
+                    rockCount++;
+                }
+            }
+
+            if (rockCount < 1)
+            {
+                NewWaveSpawn();
+            }
+        }
+
+        void NewWaveSpawn()
+        {
+            if (largeRockAmount < 12)
+            {
+                largeRockAmount += 2;
+            }
+
+            SpawnRocks(Vector3.Zero, Main.RockSize.Large, largeRockAmount);
+            Main.instance.Wave++;
+        }
+
+        void DisableRocks()
+        {
+            foreach(Rock rock in rockScriptList)
+            {
+                rock.Disable();
+            }
         }
 
         void SpawnRocks(Vector3 position, Main.RockSize rockSize, int count)

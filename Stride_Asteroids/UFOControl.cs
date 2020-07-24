@@ -11,7 +11,7 @@ namespace Stride_Asteroids
 {
     public class UFOControl : SyncScript
     {
-        UFO UFOScript;
+        public UFO UFOScript;
         Prefab UFOPrefab;
         float spawnAmount = 10.15f;
         float spawnAdj = 0;
@@ -20,12 +20,11 @@ namespace Stride_Asteroids
 
         public override void Start()
         {
-            Main.instance.UFOScript = UFOScript;
-            UFOPrefab = Content.Load<Prefab>("UFO");
+            Main.instance.UFOScript = this;
+            UFOPrefab = Content.Load<Prefab>("Prefabs/UFO");
             Entity ufo = UFOPrefab.Instantiate().First();
             SceneSystem.SceneInstance.RootScene.Entities.Add(ufo);
             UFOScript = ufo.Components.Get<UFO>();
-            Main.instance.UFOScript = UFOScript;
         }
 
         public override void Update()

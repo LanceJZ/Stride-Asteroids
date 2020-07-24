@@ -25,31 +25,29 @@ namespace Stride_Asteroids
         SoundInstance soundInstance;
 
         public Main.RockSize Size { get => size; }
-        public Rock()
-        {
-        }
+
         public override void Start()
         {
-            radius = 0.68f * adj;
+
         }
 
         public override void Update()
         {
-            base.Update();
-            CheckForEdge();
-
-
             if (IsActive() && !hit)
             {
+                base.Update();
+                CheckForEdge();
+
                 if (hit = CheckCollisions())
                 {
-                    Disable();
+                    RockHit();
                 }
             }
         }
 
         public void Spawn(Vector3 position, Main.RockSize size)
         {
+            hit = false;
             this.size = size;
             float speed = 0;
             this.position = position;
@@ -58,6 +56,7 @@ namespace Stride_Asteroids
             switch (size)
             {
                 case Main.RockSize.Large:
+                    radius = 0.68f * adj;
                     Entity.Transform.Scale = Vector3.One;
                     speed = 0.075f;
                     points = 20;
@@ -75,12 +74,14 @@ namespace Stride_Asteroids
 
                     break;
                 case Main.RockSize.Medium:
+                    radius = 0.68f * adj * 0.5f;
                     Entity.Transform.Scale = Vector3.One * 0.5f;
                     speed = 0.15f;
                     points = 50;
                     velocity = SetVelocity(speed);
                     break;
                 case Main.RockSize.Small:
+                    radius = 0.68f * adj * 0.25f;
                     Entity.Transform.Scale = Vector3.One * 0.25f;
                     speed = 0.3f;
                     points = 100;
@@ -94,7 +95,6 @@ namespace Stride_Asteroids
         public void Disable()
         {
             rockMesh.Enabled = false;
-            hit = false;
         }
 
         public bool IsActive()
@@ -140,21 +140,55 @@ namespace Stride_Asteroids
                     if (CirclesIntersect(shot.Position, shot.Radius))
                     {
                         shot.Disable();
+                        Main.instance.UpdateScore(points);
                         return true;
                     }
                 }
             }
 
-            if (Main.instance.UFOScript.IsActive())
+            if (Main.instance.UFOScript.UFOScript.IsActive())
             {
-                if (CirclesIntersect(Main.instance.UFOScript.Position, Main.instance.UFOScript.Radius))
+                if (CirclesIntersect(Main.instance.UFOScript.UFOScript.Position,
+                    Main.instance.UFOScript.UFOScript.Radius))
                 {
-                    Main.instance.UFOScript.Disable();
+                    Main.instance.UFOScript.UFOScript.Disable();
+                    return true;
+                }
+            }
+
+            if (Main.instance.UFOScript.UFOScript.shotScript.IsActive())
+            {
+                if (CirclesIntersect(Main.instance.UFOScript.UFOScript.shotScript.Position,
+                    Main.instance.UFOScript.UFOScript.shotScript.Radius))
+                {
+                    Main.instance.UFOScript.UFOScript.shotScript.Disable();
                     return true;
                 }
             }
 
             return false;
+        }
+
+        void RockHit()
+        {
+            hit = true;
+            Main.instance.rocksScript.RockHit();
+            Disable();
+
+            switch (size)
+            {
+                case Main.RockSize.Large:
+                    radius = 0.75f;
+                    break;
+                case Main.RockSize.Medium:
+                    radius = 0.375f;
+                    break;
+                case Main.RockSize.Small:
+                    radius = 0.188f;
+                    break;
+            }
+
+
         }
 
         Vector3 SetVelocity(float speed)//for Rock only.

@@ -1,0 +1,8 @@
+!Sound
+Id: 43258586-7edf-4554-b513-005d4cddef39
+SerializedVersion: {Stride: 2.0.0.0}
+Tags: []
+Source: !file ../../../../../Unity/Asteroids using DOTS/Assets/Sounds/BonusShip.wav
+CompressionRatio: 15
+StreamFromDisk: false
+Spatialized: false

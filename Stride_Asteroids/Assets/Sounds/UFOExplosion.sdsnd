@@ -1,0 +1,8 @@
+!Sound
+Id: b17071c1-da10-497e-8eff-aeec98ef5876
+SerializedVersion: {Stride: 2.0.0.0}
+Tags: []
+Source: !file ../../../../../Unity/Asteroids using DOTS/Assets/Sounds/UFOExplosion.wav
+CompressionRatio: 15
+StreamFromDisk: false
+Spatialized: false

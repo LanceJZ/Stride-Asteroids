@@ -30,7 +30,7 @@ namespace Stride_Asteroids
             flameTimer = new TimerTick();
             InitilizeandCreateModels();
             Entity.AddChild(ship);
-
+            MakeShots();
         }
 
         public override void Update()
@@ -128,7 +128,32 @@ namespace Stride_Asteroids
         void HyperSpace()
         {
             velocity = Vector3.Zero;
+            position = new Vector3(Main.instance.RandomMinMax(-edge.X, edge.X),
+                Main.instance.RandomMinMax(-edge.Y, edge.Y), 0);
+            UpdatePR();
+        }
 
+        void Reset()
+        {
+            hit = false;
+            shipMesh.Enabled = true;
+            flameMesh.Enabled = false;
+            position = Vector3.Zero;
+            velocity = Vector3.Zero;
+            UpdatePR();
+        }
+
+        void MakeShots()
+        {
+            Prefab shotPrefab = Content.Load<Prefab>("Prefabs/Shot");
+
+            for (int i = 0; i < 4; i++)
+            {
+                Entity shot;
+                shot = (shotPrefab.Instantiate().First());
+                SceneSystem.SceneInstance.RootScene.Entities.Add(shot);
+                shotsScriptList.Add(shot.Components.Get<Shot>());
+            }
         }
 
         void InitilizeandCreateModels()
@@ -197,29 +222,6 @@ namespace Stride_Asteroids
             shipFlame = new Entity();
             shipFlame.Add(flameMesh);
             Entity.AddChild(shipFlame);
-
-            Prefab shotPrefab = Content.Load<Prefab>("Shot");
-
-            for (int i = 0; i < 4; i++)
-            {
-                Entity shot;
-                shot = (shotPrefab.Instantiate().First());
-                SceneSystem.SceneInstance.RootScene.Entities.Add(shot);
-                shotsScriptList.Add(shot.Components.Get<Shot>());
-            }
-
         }
-
-        void Reset()
-        {
-            hit = false;
-            shipMesh.Enabled = true;
-            flameMesh.Enabled = false;
-            position = Vector3.Zero;
-            velocity = Vector3.Zero;
-            UpdatePR();
-        }
-
-
     }
 }

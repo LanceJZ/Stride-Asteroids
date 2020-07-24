@@ -18,3 +18,4 @@ Hierarchy:
                         Children: {}
                     945925d38b414303f890ecdd5ba46019: !Stride_Asteroids.UFO,Stride_Asteroids
                         Id: f6b31a81-9ecd-4919-9433-8fd80b3db4ea
+                        shotScript: null

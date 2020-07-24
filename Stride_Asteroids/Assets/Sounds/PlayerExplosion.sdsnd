@@ -1,0 +1,8 @@
+!Sound
+Id: f370afb4-cf54-49db-9903-aee3a73d206f
+SerializedVersion: {Stride: 2.0.0.0}
+Tags: []
+Source: !file ../../../../../Unity/Asteroids using DOTS/Assets/Sounds/PlayerExplosion.wav
+CompressionRatio: 15
+StreamFromDisk: false
+Spatialized: false

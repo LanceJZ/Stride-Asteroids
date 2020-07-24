@@ -1,0 +1,8 @@
+!Sound
+Id: a655471d-75bb-442f-a350-56371419c749
+SerializedVersion: {Stride: 2.0.0.0}
+Tags: []
+Source: !file ../../../../../Unity/Asteroids using DOTS/Assets/Sounds/UFOSmall.wav
+CompressionRatio: 15
+StreamFromDisk: false
+Spatialized: false
