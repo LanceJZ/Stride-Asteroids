@@ -22,23 +22,105 @@ namespace Stride_Asteroids
         ModelComponent shipMesh;
         ModelComponent flameMesh;
         TimerTick flameTimer;
+        float spawnRadius = 0.15f; //Large rock radius is 0.0453
+        bool doneExploding;
 
         public List<Shot> Shots { get => shotsScriptList; }
+        public float SpawnRadius { get => spawnRadius; }
+        public bool DoneExploding { get => doneExploding; }
 
         public override void Start()
         {
+            radius = 0.25f * 0.0666f;
             flameTimer = new TimerTick();
             InitilizeandCreateModels();
             Entity.AddChild(ship);
             MakeShots();
+            Disable();
         }
 
         public override void Update()
         {
-            base.Update();
-            flameTimer.Tick();
-            GetInput();
-            CheckForEdge();
+            if (IsActive() && !hit)
+            {
+                base.Update();
+                flameTimer.Tick();
+                GetInput();
+                CheckForEdge();
+            }
+            else
+            {
+                if (Main.instance.gameOver)
+                {
+                    if (Input.IsKeyPressed(Keys.Return))
+                    {
+                        Main.instance.NewGame();
+                    }
+
+                    return;
+                }
+
+                if (doneExploding)
+                {
+                    if (CheckClearToSpawn())
+                    {
+                        Reset();
+                    }
+
+                    PlayerDoneExploding();
+                    return;
+                }
+
+                doneExploding = true;
+            }
+        }
+
+        public bool IsActive()
+        {
+            if (shipMesh != null)
+                return shipMesh.Enabled;
+            else
+                return false;
+        }
+
+        public void GotHit()
+        {
+            Disable();
+            doneExploding = false;
+            hit = true;
+        }
+
+        public void ResetShip()
+        {
+            Reset();
+        }
+
+        bool CheckClearToSpawn()
+        {
+            foreach (Rock rock in Main.instance.rockScriptList)
+            {
+                if (rock.CheckPlayerNotClearToSpawn() && rock.IsActive())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        void PlayerDoneExploding()
+        {
+            Main.instance.UFOControlScript.UFOScript.Disable();
+            Main.instance.UFOControlScript.UFOScript.shotScript.Disable();
+            Main.instance.UFOControlScript.ResetTimer();
+            doneExploding = true;
+        }
+
+        void Disable()
+        {
+            shipMesh.Enabled = false;
+            ThrustOff();
+            velocity = Vector3.Zero;
         }
 
         void GetInput()
@@ -76,8 +158,6 @@ namespace Stride_Asteroids
             {
                 ThrustOff();
             }
-
-
         }
 
         void ThrustOn()
@@ -104,8 +184,8 @@ namespace Stride_Asteroids
 
         void ThrustOff()
         {
-            float deceration = 0.0025f;
-            velocity -= velocity * deceration;
+            float deceleration = 0.0025f;
+            velocity -= velocity * deceleration;
             flameMesh.Enabled = false;
 
         }

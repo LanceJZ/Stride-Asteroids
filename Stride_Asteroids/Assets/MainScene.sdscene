@@ -96,8 +96,9 @@ Hierarchy:
                         Id: e09f26c0-34e9-435e-b673-0300e0c2837a
                         rockScriptList: {}
                         rocksScript: null
-                        UFOScript: null
+                        UFOControlScript: null
                         UIScript: null
+                        gameOver: true
                         Wave: 0
                         PlayerScript: null
                         random: {}

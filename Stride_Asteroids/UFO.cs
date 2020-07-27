@@ -131,17 +131,40 @@ namespace Stride_Asteroids
             UFOBIMesh.Enabled = false;
             hit = false;
             done = true;
-            Main.instance.UFOScript.ResetTimer();
+            Main.instance.UFOControlScript.ResetTimer();
         }
 
         void CheckForCollusion()
         {
             foreach(Shot shot in Main.instance.PlayerScript.Shots)
             {
-                if (CirclesIntersect(shot.Position, shot.Radius))
+                if (shot.IsActive())
                 {
-                    shot.Disable();
+                    if (CirclesIntersect(shot.Position, shot.Radius))
+                    {
+                        shot.Disable();
+                        Disable();
+                        Main.instance.UpdateScore(points);
+                    }
+                }
+            }
+
+            if (Main.instance.PlayerScript.IsActive())
+            {
+                if (CirclesIntersect(Main.instance.PlayerScript.Position, Main.instance.PlayerScript.Radius))
+                {
                     Disable();
+                    Main.instance.PlayerScript.GotHit();
+                    Main.instance.UpdateScore(points);
+                }
+
+                if (shotScript.IsActive())
+                {
+                    if (CirclesIntersect(Main.instance.PlayerScript.Position, Main.instance.PlayerScript.Radius))
+                    {
+                        Main.instance.PlayerScript.GotHit();
+                        shotScript.Disable();
+                    }
                 }
             }
         }

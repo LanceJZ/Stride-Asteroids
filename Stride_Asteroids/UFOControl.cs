@@ -20,7 +20,7 @@ namespace Stride_Asteroids
 
         public override void Start()
         {
-            Main.instance.UFOScript = this;
+            Main.instance.UFOControlScript = this;
             UFOPrefab = Content.Load<Prefab>("Prefabs/UFO");
             Entity ufo = UFOPrefab.Instantiate().First();
             SceneSystem.SceneInstance.RootScene.Entities.Add(ufo);

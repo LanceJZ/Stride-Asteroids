@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Stride.Core.Mathematics;
-using Stride.Input;
 using Stride.Engine;
 using Stride.UI.Controls;
 using Stride.Particles;
@@ -17,8 +16,9 @@ namespace Stride_Asteroids
         public static Main instance;
         public List<Rock> rockScriptList = new List<Rock>();
         public Rocks rocksScript;
-        public UFOControl UFOScript;
+        public UFOControl UFOControlScript;
         public UIText UIScript;
+        public bool gameOver = true;
         Prefab m_PlayerPrefab;
         Player playerScript;
 
@@ -28,7 +28,6 @@ namespace Stride_Asteroids
         int bonusLifeScore = 0;
         int lives = 3;
         int wave = 0;
-        bool gameOver;
 
         public int Score { get => score; }
         public int Wave { get => wave; set => wave = value; }
@@ -53,6 +52,16 @@ namespace Stride_Asteroids
             Entity player = m_PlayerPrefab.Instantiate().First();
             SceneSystem.SceneInstance.RootScene.Entities.Add(player);
             playerScript = player.Components.Get<Player>();
+        }
+
+        public void NewGame()
+        {
+            gameOver = false;
+            score = 0;
+            UIScript.Score(score);
+            wave = 0;
+            rocksScript.ResetRocks();
+            playerScript.ResetShip();
         }
 
         public void UpdateScore(int points)
@@ -109,6 +118,5 @@ namespace Stride_Asteroids
             float ang = RandomRadian();
             return new Vector3((float)Math.Cos(ang) * magnitude, (float)Math.Sin(ang) * magnitude, 0);
         }
-
     }
 }

@@ -131,6 +131,16 @@ namespace Stride_Asteroids
             rockMesh.Enabled = false;
         }
 
+        public bool CheckPlayerNotClearToSpawn()
+        {
+            if (CirclesIntersect(Vector3.Zero, Main.instance.PlayerScript.SpawnRadius))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         bool CheckCollisions()
         {
             foreach (Shot shot in Main.instance.PlayerScript.Shots)
@@ -146,22 +156,32 @@ namespace Stride_Asteroids
                 }
             }
 
-            if (Main.instance.UFOScript.UFOScript.IsActive())
+            if (Main.instance.PlayerScript.IsActive())
             {
-                if (CirclesIntersect(Main.instance.UFOScript.UFOScript.Position,
-                    Main.instance.UFOScript.UFOScript.Radius))
+                if (CirclesIntersect(Main.instance.PlayerScript.Position, Main.instance.PlayerScript.Radius))
                 {
-                    Main.instance.UFOScript.UFOScript.Disable();
+                    Main.instance.UpdateScore(points);
+                    Main.instance.PlayerScript.GotHit();
                     return true;
                 }
             }
 
-            if (Main.instance.UFOScript.UFOScript.shotScript.IsActive())
+            if (Main.instance.UFOControlScript.UFOScript.IsActive())
             {
-                if (CirclesIntersect(Main.instance.UFOScript.UFOScript.shotScript.Position,
-                    Main.instance.UFOScript.UFOScript.shotScript.Radius))
+                if (CirclesIntersect(Main.instance.UFOControlScript.UFOScript.Position,
+                    Main.instance.UFOControlScript.UFOScript.Radius))
                 {
-                    Main.instance.UFOScript.UFOScript.shotScript.Disable();
+                    Main.instance.UFOControlScript.UFOScript.Disable();
+                    return true;
+                }
+            }
+
+            if (Main.instance.UFOControlScript.UFOScript.shotScript.IsActive())
+            {
+                if (CirclesIntersect(Main.instance.UFOControlScript.UFOScript.shotScript.Position,
+                    Main.instance.UFOControlScript.UFOScript.shotScript.Radius))
+                {
+                    Main.instance.UFOControlScript.UFOScript.shotScript.Disable();
                     return true;
                 }
             }
