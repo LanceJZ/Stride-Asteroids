@@ -33,6 +33,7 @@ Hierarchy:
                     30e2896bedfa51383702a2cee34ec12e: !Stride_Asteroids.UIText,Stride_Asteroids
                         Id: 80ccfadb-2e86-43fb-ab69-3f9de4928374
                         page: 38f46d03-1843-4f80-bb49-2375660f22bf:Page
+                        hiScore: 0
         -   Entity:
                 Id: 64c43f6a-bb70-4a0f-9584-24be818dc9b0
                 Name: Camera
@@ -64,7 +65,7 @@ Hierarchy:
                         Type: !LightAmbient
                             Color: !ColorRgbProvider
                                 Value: {R: 0.9411765, G: 0.9411765, B: 1.0}
-                        Intensity: 0.1
+                        Intensity: 0.05
         -   Entity:
                 Id: 8e74fed7-f1c7-4ec0-8abd-b51f0f672cde
                 Name: UI
@@ -78,7 +79,7 @@ Hierarchy:
                             50681dbdc71862b45fef2950993e8cf7: ref!! 248ce9cb-2806-4ea8-82e1-04cf8d0ca52e
                     32eca0206da9024f289dd84e1e5b2a97: !UIComponent
                         Id: ba3146f2-3ac5-413e-b2c9-efcf65c9a8b4
-                        Page: null
+                        Page: 38f46d03-1843-4f80-bb49-2375660f22bf:Page
                         IsFullScreen: false
                         Resolution: {X: 1024.0, Y: 768.0, Z: 1000.0}
                         Size: {X: 1.0, Y: 1.0, Z: 1.0}

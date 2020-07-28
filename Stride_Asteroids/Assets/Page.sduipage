@@ -18,25 +18,66 @@ Hierarchy:
                 MaximumDepth: 3.40282347E+38
                 Children:
                     b6b7e4233256814efa31fe3056c3a8cc: !TextBlock ref!! da2fd12c-3d80-4e3c-9504-7da3ad2cc90f
+                    0c1a4c1a2cda77a9d42e965f7a27096b: !TextBlock ref!! a3dff4a5-2938-438f-9956-deeb91717162
+                    ca168f2d33da83481de9be8504b77967: !TextBlock ref!! bfc85830-e9f8-4cdc-b925-a423f07857c8
                 RowDefinitions: {}
                 ColumnDefinitions: {}
                 LayerDefinitions: {}
         -   UIElement: !TextBlock
-                Id: da2fd12c-3d80-4e3c-9504-7da3ad2cc90f
+                Id: a3dff4a5-2938-438f-9956-deeb91717162
                 DependencyProperties: {}
                 BackgroundColor: {R: 0, G: 0, B: 0, A: 0}
-                Width: 306.0
-                Height: 51.0
-                HorizontalAlignment: Left
+                Opacity: 0.15
+                Width: 163.0
+                Height: 32.0
                 VerticalAlignment: Top
                 DepthAlignment: Front
-                Margin: {Left: 64.0}
+                Margin: {Left: 432.0, Right: 432.0}
                 MaximumWidth: 3.40282347E+38
                 MaximumHeight: 3.40282347E+38
                 MaximumDepth: 3.40282347E+38
+                Name: HiScoreText
+                Text: 00
+                Font: 0c1a8a86-5fde-4d63-ae52-157862df92f0:Vector
+                TextSize: 25.0
+                TextColor: {R: 229, G: 229, B: 229, A: 255}
+                TextAlignment: Center
+        -   UIElement: !TextBlock
+                Id: bfc85830-e9f8-4cdc-b925-a423f07857c8
+                DependencyProperties: {}
+                BackgroundColor: {R: 0, G: 0, B: 0, A: 0}
+                Opacity: 0.1
+                Width: 199.0
+                Height: 30.0
+                VerticalAlignment: Bottom
+                Margin: {Left: 411.5, Right: 413.5}
+                MaximumWidth: 3.40282347E+38
+                MaximumHeight: 3.40282347E+38
+                MaximumDepth: 3.40282347E+38
+                Name: Atari
+                Text: "© 1979 ATARI INC"
+                Font: 0c1a8a86-5fde-4d63-ae52-157862df92f0:Vector
+                TextSize: 20.0
+                TextColor: {R: 229, G: 229, B: 229, A: 255}
+                TextAlignment: Center
+        -   UIElement: !TextBlock
+                Id: da2fd12c-3d80-4e3c-9504-7da3ad2cc90f
+                DependencyProperties: {}
+                BackgroundColor: {R: 0, G: 0, B: 0, A: 0}
+                Opacity: 0.15
+                Width: 254.0
+                Height: 51.0
+                Depth: 0.0
+                HorizontalAlignment: Left
+                VerticalAlignment: Top
+                DepthAlignment: Front
+                Margin: {Left: 20.0}
+                MaximumWidth: 400.0
+                MaximumHeight: 254.0
+                MaximumDepth: 1.0
                 Name: ScoreText
                 Text: 00
                 Font: 0c1a8a86-5fde-4d63-ae52-157862df92f0:Vector
                 TextSize: 40.0
-                TextColor: {R: 255, G: 255, B: 255, A: 255}
+                TextColor: {R: 229, G: 229, B: 229, A: 255}
                 TextAlignment: Right

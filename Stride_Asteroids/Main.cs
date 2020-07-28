@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Stride.Core.Mathematics;
 using Stride.Engine;
+using Stride.Audio;
 using Stride.UI.Controls;
 using Stride.Particles;
 
@@ -22,17 +24,21 @@ namespace Stride_Asteroids
         Prefab m_PlayerPrefab;
         Player playerScript;
 
+        FileStream fileStream;
+        string fileName = "Score.sav";
+        string dataRead = "";
         int score = 0;
         int highScore = 0;
         int bonusLifeAmount = 10000;
         int bonusLifeScore = 0;
-        int lives = 3;
+        int lives = 0;
         int wave = 0;
 
         public int Score { get => score; }
         public int Wave { get => wave; set => wave = value; }
         public Player PlayerScript { get => playerScript; }
         public Random random { get => TherandomNG; }
+        public int Lives { get => lives; }
 
         public enum RockSize
         {
@@ -58,16 +64,45 @@ namespace Stride_Asteroids
         {
             gameOver = false;
             score = 0;
-            UIScript.Score(score);
+            lives = 3;
             wave = 0;
+            bonusLifeScore = bonusLifeAmount;
+            UIScript.Score(score);
             rocksScript.ResetRocks();
             playerScript.ResetShip();
+            playerScript.ShipLives();
+            highScore = UIScript.hiScore;
         }
 
         public void UpdateScore(int points)
         {
             score += points;
             UIScript.Score(score);
+
+            if (score > bonusLifeScore)
+            {
+                lives++;
+                bonusLifeScore += bonusLifeAmount;
+                playerScript.ShipLives();
+            }
+        }
+
+        public void PlayerLostLife()
+        {
+            lives--;
+            playerScript.ShipLives();
+
+            if (lives < 0)
+            {
+                gameOver = true;
+
+                if (score > highScore)
+                {
+                    highScore = score;
+                    UIScript.HiScore(highScore);
+                    WriteHighScore(highScore);
+                }
+            }
         }
         /// <summary>
         /// Get a random float between min and max.
@@ -117,6 +152,79 @@ namespace Stride_Asteroids
         {
             float ang = RandomRadian();
             return new Vector3((float)Math.Cos(ang) * magnitude, (float)Math.Sin(ang) * magnitude, 0);
+        }
+
+        bool ReadFile()
+        {
+            if (File.Exists(fileName))
+            {
+                fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+
+                byte[] dataByte = new byte[1024];
+                UTF8Encoding bufferUTF8 = new UTF8Encoding(true);
+
+                while (fileStream.Read(dataByte, 0, dataByte.Length) > 0)
+                {
+                    dataRead += bufferUTF8.GetString(dataByte, 0, dataByte.Length);
+                }
+
+                Close();
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        void WriteFile(int score)
+        {
+            fileStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write);
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    if (highScoreData[i].Score > 0)
+            //    {
+            //        byte[] name = new UTF8Encoding(true).GetBytes(highScoreData[i].Name);
+            //        fileStream.Write(name, 0, name.Length);
+
+            //        byte[] score = new UTF8Encoding(true).GetBytes(highScoreData[i].Score.ToString());
+            //        fileStream.Write(score, 0, score.Length);
+
+            //        byte[] marker = new UTF8Encoding(true).GetBytes(":");
+            //        fileStream.Write(marker, 0, marker.Length);
+            //    }
+            //}
+
+            byte[] scoreb = new UTF8Encoding(true).GetBytes(score.ToString());
+            fileStream.Write(scoreb, 0, scoreb.Length);
+
+            Close();
+        }
+
+        void Close()
+        {
+            fileStream.Flush();
+            fileStream.Close();
+            fileStream.Dispose();
+        }
+
+        public void WriteHighScore(int score)
+        {
+            WriteFile(score);
+        }
+
+        public int ReadHighScore()
+        {
+            if (ReadFile())
+            {
+                return int.Parse(dataRead);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

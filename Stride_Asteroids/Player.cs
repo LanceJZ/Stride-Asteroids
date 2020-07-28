@@ -16,6 +16,7 @@ namespace Stride_Asteroids
     public class Player : Actor
     {
         List<Shot> shotsScriptList = new List<Shot>();
+        List<Entity> displayShipsList = new List<Entity>();
         Entity ship;
         Entity shipFlame;
         Model shipModel;
@@ -88,11 +89,34 @@ namespace Stride_Asteroids
             Disable();
             doneExploding = false;
             hit = true;
+            Main.instance.PlayerLostLife();
         }
 
         public void ResetShip()
         {
             Reset();
+        }
+
+        public void ShipLives()
+        {
+            foreach (Entity ship in displayShipsList)
+            {
+                SceneSystem.SceneInstance.RootScene.Entities.Remove(ship);
+            }
+
+            displayShipsList.Clear();
+
+            for (int ship = 0; ship < Main.instance.Lives; ship++)
+            {
+                displayShipsList.Add(new Entity());
+                ModelComponent shipMesh = new ModelComponent(shipModel);
+                displayShipsList[ship].Add(shipMesh);
+                displayShipsList[ship].Transform.Position = new Vector3((edge.X * 0.4f) + (ship * 0.025f),
+                    edge.Y - 0.075f, 0);
+                //displayShipsList[ship].Transform.Scale = new Vector3(0.75f);
+                displayShipsList[ship].Transform.RotationEulerXYZ = new Vector3(0, 0, MathUtil.PiOverTwo);
+                SceneSystem.SceneInstance.RootScene.Entities.Add(displayShipsList[ship]);
+            }
         }
 
         bool CheckClearToSpawn()

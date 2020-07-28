@@ -6,7 +6,7 @@ FontSource: !FileFontProvider
     Source: !file Hyperspace.ttf
 FontType: !RuntimeRasterizedSpriteFontType
     Size: 40.0
-    AntiAlias: Aliased
+    AntiAlias: ClearType
 DefaultCharacter: 0
 LineGapFactor: 0.0
 LineGapBaseLineFactor: 0.0

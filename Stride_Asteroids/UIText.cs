@@ -12,14 +12,24 @@ namespace Stride_Asteroids
 {
     public class UIText : SyncScript
     {
-        TextBlock score;
+        TextBlock scoreText;
+        TextBlock hiScoreText;
         public UIPage page;
+        public int hiScore;
 
         public override void Start()
         {
             var root = page.RootElement;
-            score = root.FindVisualChildOfType<TextBlock>("ScoreText");
+            scoreText = root.FindVisualChildOfType<TextBlock>("ScoreText");
+            hiScoreText = root.FindVisualChildOfType<TextBlock>("HiScoreText");
             Main.instance.UIScript = this;
+
+            hiScore = Main.instance.ReadHighScore();
+
+            if (hiScore > 0)
+            {
+                HiScore(hiScore);
+            }
         }
 
         public override void Update()
@@ -29,7 +39,12 @@ namespace Stride_Asteroids
 
         public void Score(int points)
         {
-            score.Text = points.ToString();
+            scoreText.Text = points.ToString();
+        }
+
+        public void HiScore(int points)
+        {
+            hiScoreText.Text = points.ToString();
         }
     }
 }
