@@ -23,11 +23,13 @@ RootAssets:
     - a655471d-75bb-442f-a350-56371419c749:Sounds/UFOSmall
     - b17071c1-da10-497e-8eff-aeec98ef5876:Sounds/UFOExplosion
     - b4016a07-9da7-4bfd-8aa0-008f1052bb53:Sounds/Player Thrust
+    - b4ea9b66-0eaf-459f-8696-4a84f0c7ad10:Prefabs/Line
     - b5ff85a7-8966-4949-8cba-01a393cf1f22:Sounds/RockExplosion
     - de1dd6a4-2e5b-4ecf-866f-caf392cdcfa6:Sounds/Thrust
     - df36974d-0fda-475e-8452-728bef569ae4:Prefabs/Rock
     - e13e1ee9-a089-41cd-a3a9-574633bf3106:Prefabs/Player
     - e1d51dec-ea7e-4c05-b856-0a3b38319fad:Sounds/AsteroidsBackground
+    - e41f380f-2ae6-402f-a3bc-0a9ac0783afc:Prefabs/Dot
     - f370afb4-cf54-49db-9903-aee3a73d206f:Sounds/PlayerExplosion
     - fbab804f-bfb4-46ca-8e37-daee9474520d:Sounds/PlayerFire
     - ff0d4d04-7fe9-4bac-8f66-489b2fda199e:Prefabs/UFO

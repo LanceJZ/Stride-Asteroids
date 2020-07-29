@@ -95,7 +95,16 @@ namespace Stride_Asteroids
         {
             return Main.instance.RandomMinMax(-edge.Y, edge.Y);
         }
-
+        /// <summary>
+        /// Returns random velocity from one tenth of speed to speed.
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <returns>Vector3</returns>
+        protected Vector3 SetVelocity(float speed)
+        {
+            float amt = Main.instance.RandomMinMax(speed * 0.1f, speed);
+            return Main.instance.SetVelocityFromAngle(amt);
+        }
 
     }
 }

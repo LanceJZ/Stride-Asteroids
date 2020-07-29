@@ -12,27 +12,26 @@ using Stride.Graphics;
 
 namespace Stride_Asteroids
 {
-    public class Rock : Actor
+    public class Rock : Explode
     {
         int points;
-        float speed;
+        float maxSpeed = 0.15f;
         float adj = 0.0666f;
         Main.RockSize size;
-        Player player;
-        UFO UFO;
         Entity rock;
         ModelComponent rockMesh;
-        SoundInstance soundInstance;
 
         public Main.RockSize Size { get => size; }
 
         public override void Start()
         {
-
+            base.Start();
         }
 
         public override void Update()
         {
+            base.Update();
+
             if (IsActive() && !hit)
             {
                 base.Update();
@@ -40,7 +39,7 @@ namespace Stride_Asteroids
 
                 if (hit = CheckCollisions())
                 {
-                    RockHit();
+                    Hit();
                 }
             }
         }
@@ -49,7 +48,7 @@ namespace Stride_Asteroids
         {
             hit = false;
             this.size = size;
-            float speed = 0;
+            float speed = 0.15f;
             this.position = position;
             rockMesh.Enabled = true;
 
@@ -58,7 +57,7 @@ namespace Stride_Asteroids
                 case Main.RockSize.Large:
                     radius = 0.68f * adj;
                     Entity.Transform.Scale = Vector3.One;
-                    speed = 0.075f;
+                    speed = maxSpeed / 3;
                     points = 20;
                     this.position.Y = RandomHieght();
                     velocity = SetVelocity(speed);
@@ -76,14 +75,14 @@ namespace Stride_Asteroids
                 case Main.RockSize.Medium:
                     radius = 0.68f * adj * 0.5f;
                     Entity.Transform.Scale = Vector3.One * 0.5f;
-                    speed = 0.15f;
+                    speed = maxSpeed / 2;
                     points = 50;
                     velocity = SetVelocity(speed);
                     break;
                 case Main.RockSize.Small:
                     radius = 0.68f * adj * 0.25f;
                     Entity.Transform.Scale = Vector3.One * 0.25f;
-                    speed = 0.3f;
+                    speed = maxSpeed;
                     points = 100;
                     velocity = SetVelocity(speed);
                     break;
@@ -189,33 +188,27 @@ namespace Stride_Asteroids
             return false;
         }
 
-        void RockHit()
+        new void Hit()
         {
+            Spawn(position);
             hit = true;
-            Main.instance.rocksScript.RockHit();
+            Main.instance.rockManagerScript.RockHit();
             Disable();
 
-            switch (size)
-            {
-                case Main.RockSize.Large:
-                    radius = 0.75f;
-                    break;
-                case Main.RockSize.Medium:
-                    radius = 0.375f;
-                    break;
-                case Main.RockSize.Small:
-                    radius = 0.188f;
-                    break;
-            }
-
-
+            //switch (size)
+            //{
+            //    case Main.RockSize.Large:
+            //        radius = 0.75f;
+            //        break;
+            //    case Main.RockSize.Medium:
+            //        radius = 0.375f;
+            //        break;
+            //    case Main.RockSize.Small:
+            //        radius = 0.188f;
+            //        break;
+            //}
         }
 
-        Vector3 SetVelocity(float speed)//for Rock only.
-        {
-            float amt = Main.instance.RandomMinMax(speed * 0.15f, speed);
-            return Main.instance.SetVelocityFromAngle(amt);
-        }
         #region RockModels
         void RockOne()
         {

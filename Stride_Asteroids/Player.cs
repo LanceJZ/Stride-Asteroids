@@ -13,7 +13,7 @@ using Stride.Graphics;
 
 namespace Stride_Asteroids
 {
-    public class Player : Actor
+    public class Player : PlayerExplode
     {
         List<Shot> shotsScriptList = new List<Shot>();
         List<Entity> displayShipsList = new List<Entity>();
@@ -24,14 +24,13 @@ namespace Stride_Asteroids
         ModelComponent flameMesh;
         TimerTick flameTimer;
         float spawnRadius = 0.15f; //Large rock radius is 0.0453
-        bool doneExploding;
 
         public List<Shot> Shots { get => shotsScriptList; }
         public float SpawnRadius { get => spawnRadius; }
-        public bool DoneExploding { get => doneExploding; }
 
         public override void Start()
         {
+            base.Start();
             radius = 0.25f * 0.0666f;
             flameTimer = new TimerTick();
             InitilizeandCreateModels();
@@ -45,9 +44,9 @@ namespace Stride_Asteroids
             if (IsActive() && !hit)
             {
                 base.Update();
-                flameTimer.Tick();
                 GetInput();
                 CheckForEdge();
+                CheckCollusion();
             }
             else
             {
@@ -61,7 +60,7 @@ namespace Stride_Asteroids
                     return;
                 }
 
-                if (doneExploding)
+                if (CheckExplodeDone())
                 {
                     if (CheckClearToSpawn())
                     {
@@ -71,8 +70,6 @@ namespace Stride_Asteroids
                     PlayerDoneExploding();
                     return;
                 }
-
-                doneExploding = true;
             }
         }
 
@@ -86,8 +83,8 @@ namespace Stride_Asteroids
 
         public void GotHit()
         {
+            Spawn(position);
             Disable();
-            doneExploding = false;
             hit = true;
             Main.instance.PlayerLostLife();
         }
@@ -119,9 +116,24 @@ namespace Stride_Asteroids
             }
         }
 
+        bool CheckCollusion()
+        {
+            if (Main.instance.UFOControlScript.UFOScript.shotScript.IsActive())
+            {
+                if (CirclesIntersect(Main.instance.UFOControlScript.UFOScript.shotScript.Position,
+                    Main.instance.UFOControlScript.UFOScript.shotScript.Radius))
+                {
+                    GotHit();
+                    Main.instance.UFOControlScript.UFOScript.shotScript.Disable();
+                }
+            }
+
+            return false;
+        }
+
         bool CheckClearToSpawn()
         {
-            foreach (Rock rock in Main.instance.rockScriptList)
+            foreach (Rock rock in Main.instance.rockManagerScript.RocksList)
             {
                 if (rock.CheckPlayerNotClearToSpawn() && rock.IsActive())
                 {
@@ -137,7 +149,6 @@ namespace Stride_Asteroids
             Main.instance.UFOControlScript.UFOScript.Disable();
             Main.instance.UFOControlScript.UFOScript.shotScript.Disable();
             Main.instance.UFOControlScript.ResetTimer();
-            doneExploding = true;
         }
 
         void Disable()
@@ -192,6 +203,7 @@ namespace Stride_Asteroids
             if (Math.Abs(velocity.X) + Math.Abs(velocity.Y) < maxPerSecond)
             {
                 velocity += Main.instance.VelocityFromAngle(rotation, thrustAmount);
+                flameTimer.Tick();
 
                 if (flameTimer.TotalTime.Milliseconds > 18)
                 {

@@ -1,0 +1,20 @@
+!PrefabAsset
+Id: e41f380f-2ae6-402f-a3bc-0a9ac0783afc
+SerializedVersion: {Stride: 3.1.0.1}
+Tags: []
+Hierarchy:
+    RootParts:
+        - ref!! 50fa6d94-6d5f-4313-a638-6220131d4c6f
+    Parts:
+        -   Entity:
+                Id: 50fa6d94-6d5f-4313-a638-6220131d4c6f
+                Name: Dot
+                Components:
+                    cf6f79a5defc53398b0ffba64dc640ad: !TransformComponent
+                        Id: 9d986526-8750-4386-9bee-f96cf6449ef4
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    b9c4a707e9a8c7a1981b814767bd098f: !Stride_Asteroids.Dot,Stride_Asteroids
+                        Id: 1200cce8-f72d-4305-96fa-630ba2c4ef27

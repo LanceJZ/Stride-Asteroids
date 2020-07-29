@@ -13,7 +13,7 @@ using Stride.Core.Shaders.Ast;
 
 namespace Stride_Asteroids
 {
-    public class UFO : Actor
+    public class UFO : Explode
     {
         public Shot shotScript;
         Entity UFOentity;
@@ -21,14 +21,14 @@ namespace Stride_Asteroids
         ModelComponent UFOTIMesh;
         ModelComponent UFOBIMesh;
         TimerTick vectorTimer = new TimerTick();
-        float vectorAmount = 3.15f;
         TimerTick fireTimer = new TimerTick();
+        float vectorAmount = 3.15f;
         float fireAmount = 2.75f;
         float adj = 0.0666f;
         float speed;
         float shotSpeed = 0.3666f;
         int points;
-        bool done;
+        //bool done;
 
         UFOType type;
         enum UFOType
@@ -39,6 +39,8 @@ namespace Stride_Asteroids
 
         public override void Start()
         {
+            base.Start();
+
             ModelCreation();
             Disable();
             MakeShot();
@@ -46,6 +48,8 @@ namespace Stride_Asteroids
 
         public override void Update()
         {
+            base.Update();
+
             if (IsActive() && !hit)
             {
                 base.Update();
@@ -130,8 +134,14 @@ namespace Stride_Asteroids
             UFOTIMesh.Enabled = false;
             UFOBIMesh.Enabled = false;
             hit = false;
-            done = true;
+            //done = true;
             Main.instance.UFOControlScript.ResetTimer();
+        }
+
+        public new void Hit()
+        {
+            Spawn(position);
+            Disable();
         }
 
         void CheckForCollusion()
@@ -143,7 +153,7 @@ namespace Stride_Asteroids
                     if (CirclesIntersect(shot.Position, shot.Radius))
                     {
                         shot.Disable();
-                        Disable();
+                        Hit();
                         Main.instance.UpdateScore(points);
                     }
                 }
@@ -153,18 +163,9 @@ namespace Stride_Asteroids
             {
                 if (CirclesIntersect(Main.instance.PlayerScript.Position, Main.instance.PlayerScript.Radius))
                 {
-                    Disable();
+                    Hit();
                     Main.instance.PlayerScript.GotHit();
                     Main.instance.UpdateScore(points);
-                }
-
-                if (shotScript.IsActive())
-                {
-                    if (CirclesIntersect(Main.instance.PlayerScript.Position, Main.instance.PlayerScript.Radius))
-                    {
-                        Main.instance.PlayerScript.GotHit();
-                        shotScript.Disable();
-                    }
                 }
             }
         }
@@ -244,7 +245,7 @@ namespace Stride_Asteroids
             UFOTIMesh.Enabled = true;
             UFOBIMesh.Enabled = true;
             hit = false;
-            done = false;
+            //done = false;
         }
 
         void MakeShot()

@@ -8,16 +8,17 @@ using Stride.Engine;
 
 namespace Stride_Asteroids
 {
-    public class Rocks : SyncScript
+    public class RockManager : SyncScript
     {
         List<Rock> rockScriptList = new List<Rock>();
         Prefab rockPrefab;
         int largeRockAmount = 2;
 
+        public List<Rock> RocksList { get => rockScriptList; }
+
         public override void Start()
         {
-            Main.instance.rockScriptList = rockScriptList;
-            Main.instance.rocksScript = this;
+            Main.instance.rockManagerScript = this;
             rockPrefab = Content.Load<Prefab>("Prefabs/Rock");
             NewWaveSpawn();
         }

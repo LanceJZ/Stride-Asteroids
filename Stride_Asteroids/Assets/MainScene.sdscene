@@ -95,8 +95,7 @@ Hierarchy:
                         Children: {}
                     05867c341561944c3271c0ecb1127b07: !Stride_Asteroids.Main,Stride_Asteroids
                         Id: e09f26c0-34e9-435e-b673-0300e0c2837a
-                        rockScriptList: {}
-                        rocksScript: null
+                        rockManagerScript: null
                         UFOControlScript: null
                         UIScript: null
                         gameOver: true
@@ -105,7 +104,7 @@ Hierarchy:
                         random: {}
         -   Entity:
                 Id: b81e311d-e1fe-4947-ba28-b02eb5ce6e40
-                Name: Rocks
+                Name: RockManager
                 Components:
                     b5a5a4a9c2f4d3330a82047dede4d6c1: !TransformComponent
                         Id: 87ebd982-264a-4b7d-9c2e-4112f31ad575
@@ -113,8 +112,9 @@ Hierarchy:
                         Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
                         Scale: {X: 1.0, Y: 1.0, Z: 1.0}
                         Children: {}
-                    c5c168fd79a14e7169c6e55a72c1a3cf: !Stride_Asteroids.Rocks,Stride_Asteroids
-                        Id: 3314901e-99e4-458f-95f6-cb10f49c8862
+                    971b0dfbdbdc2bbcf7795892f8cbeef2: !Stride_Asteroids.RockManager,Stride_Asteroids
+                        Id: bd683529-0d25-44f0-b7d8-5fa1f952fe05
+                        RocksList: {}
         -   Entity:
                 Id: becb5887-80e6-403b-9494-0b41a5d3c7a2
                 Name: BackGround
@@ -140,6 +140,6 @@ Hierarchy:
                         Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
                         Scale: {X: 1.0, Y: 1.0, Z: 1.0}
                         Children: {}
-                    5625e26584fc5dd645188463c1633428: !Stride_Asteroids.UFOControl,Stride_Asteroids
-                        Id: a10f5b49-ec3f-4095-9b14-ca922d7a898b
+                    9fbda70334f35eb6b5ba244860ac3477: !Stride_Asteroids.UFOControl,Stride_Asteroids
+                        Id: 41786633-5c21-47cb-9151-b8152d9a944e
                         UFOScript: null

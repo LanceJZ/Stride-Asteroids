@@ -16,12 +16,10 @@ namespace Stride_Asteroids
     {
         readonly Random TherandomNG = new Random(DateTime.Now.Millisecond);
         public static Main instance;
-        public List<Rock> rockScriptList = new List<Rock>();
-        public Rocks rocksScript;
+        public RockManager rockManagerScript;
         public UFOControl UFOControlScript;
         public UIText UIScript;
         public bool gameOver = true;
-        Prefab m_PlayerPrefab;
         Player playerScript;
 
         FileStream fileStream;
@@ -54,10 +52,11 @@ namespace Stride_Asteroids
                 instance = this;
             }
 
-            m_PlayerPrefab = Content.Load<Prefab>("Prefabs/Player");
-            Entity player = m_PlayerPrefab.Instantiate().First();
-            SceneSystem.SceneInstance.RootScene.Entities.Add(player);
-            playerScript = player.Components.Get<Player>();
+            Prefab playerPrefab;
+            playerPrefab = Content.Load<Prefab>("Prefabs/Player");
+            Entity playerE = playerPrefab.Instantiate().First();
+            SceneSystem.SceneInstance.RootScene.Entities.Add(playerE);
+            playerScript = playerE.Components.Get<Player>();
         }
 
         public void NewGame()
@@ -68,7 +67,7 @@ namespace Stride_Asteroids
             wave = 0;
             bonusLifeScore = bonusLifeAmount;
             UIScript.Score(score);
-            rocksScript.ResetRocks();
+            rockManagerScript.ResetRocks();
             playerScript.ResetShip();
             playerScript.ShipLives();
             highScore = UIScript.hiScore;

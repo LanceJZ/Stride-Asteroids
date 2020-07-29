@@ -1,0 +1,20 @@
+!PrefabAsset
+Id: b4ea9b66-0eaf-459f-8696-4a84f0c7ad10
+SerializedVersion: {Stride: 3.1.0.1}
+Tags: []
+Hierarchy:
+    RootParts:
+        - ref!! 42adca35-f122-4d5f-af1f-0679ac474d48
+    Parts:
+        -   Entity:
+                Id: 42adca35-f122-4d5f-af1f-0679ac474d48
+                Name: Lines
+                Components:
+                    9a4c1baa3c68fad8c3644679d935e61a: !TransformComponent
+                        Id: ad0a4739-addf-482f-ba72-7a3a6ce99ecb
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    1a3bc72e8e97e7be544279bd0aa5d0f2: !Stride_Asteroids.Line,Stride_Asteroids
+                        Id: 3b1bdc0f-0a3a-4c37-ab72-8e6f9c1e3eb9
