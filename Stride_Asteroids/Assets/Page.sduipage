@@ -20,6 +20,7 @@ Hierarchy:
                     b6b7e4233256814efa31fe3056c3a8cc: !TextBlock ref!! da2fd12c-3d80-4e3c-9504-7da3ad2cc90f
                     0c1a4c1a2cda77a9d42e965f7a27096b: !TextBlock ref!! a3dff4a5-2938-438f-9956-deeb91717162
                     ca168f2d33da83481de9be8504b77967: !TextBlock ref!! bfc85830-e9f8-4cdc-b925-a423f07857c8
+                    06d1e6821dfc8af48d53985fd12d731f: !TextBlock ref!! b6fe0fe4-0362-4e81-8fac-f9a10e94f73d
                 RowDefinitions: {}
                 ColumnDefinitions: {}
                 LayerDefinitions: {}
@@ -41,6 +42,23 @@ Hierarchy:
                 Font: 0c1a8a86-5fde-4d63-ae52-157862df92f0:Vector
                 TextSize: 25.0
                 TextColor: {R: 229, G: 229, B: 229, A: 255}
+                TextAlignment: Center
+        -   UIElement: !TextBlock
+                Id: b6fe0fe4-0362-4e81-8fac-f9a10e94f73d
+                DependencyProperties: {}
+                BackgroundColor: {R: 0, G: 0, B: 0, A: 0}
+                Opacity: 0.25
+                Width: 1024.0
+                Height: 50.0
+                Margin: {Top: 350.0, Bottom: 350.0}
+                MaximumWidth: 3.40282347E+38
+                MaximumHeight: 3.40282347E+38
+                MaximumDepth: 3.40282347E+38
+                Name: GameOver
+                Text: Game Over
+                Font: 0c1a8a86-5fde-4d63-ae52-157862df92f0:Vector
+                TextSize: 44.0
+                TextColor: {R: 204, G: 204, B: 204, A: 255}
                 TextAlignment: Center
         -   UIElement: !TextBlock
                 Id: bfc85830-e9f8-4cdc-b925-a423f07857c8

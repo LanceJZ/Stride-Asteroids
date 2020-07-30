@@ -9,6 +9,7 @@ using Stride.Input;
 using Stride.Engine;
 using Stride.Rendering;
 using Stride.Audio;
+using Stride.Media;
 using Stride.Graphics;
 
 namespace Stride_Asteroids
@@ -22,6 +23,9 @@ namespace Stride_Asteroids
         Model shipModel;
         ModelComponent shipMesh;
         ModelComponent flameMesh;
+        SoundInstance fireSoundInstance;
+        SoundInstance thrustSoundInstance;
+        SoundInstance bonusSoundInstance;
         TimerTick flameTimer;
         float spawnRadius = 0.15f; //Large rock radius is 0.0453
 
@@ -36,12 +40,13 @@ namespace Stride_Asteroids
             InitilizeandCreateModels();
             Entity.AddChild(ship);
             MakeShots();
+            InitializeAudio();
             Disable();
         }
 
         public override void Update()
         {
-            if (IsActive() && !hit)
+            if (IsActive())
             {
                 base.Update();
                 GetInput();
@@ -59,8 +64,7 @@ namespace Stride_Asteroids
 
                     return;
                 }
-
-                if (CheckExplodeDone())
+                else if (CheckExplodeDone())
                 {
                     if (CheckClearToSpawn())
                     {
@@ -69,6 +73,10 @@ namespace Stride_Asteroids
 
                     PlayerDoneExploding();
                     return;
+                }
+                else
+                {
+                    Main.instance.UFOControlScript.ResetTimer();
                 }
             }
         }
@@ -83,7 +91,7 @@ namespace Stride_Asteroids
 
         public void GotHit()
         {
-            Spawn(position);
+            Explode();
             Disable();
             hit = true;
             Main.instance.PlayerLostLife();
@@ -114,6 +122,11 @@ namespace Stride_Asteroids
                 displayShipsList[ship].Transform.RotationEulerXYZ = new Vector3(0, 0, MathUtil.PiOverTwo);
                 SceneSystem.SceneInstance.RootScene.Entities.Add(displayShipsList[ship]);
             }
+        }
+
+        public void PlayBonusSound()
+        {
+            bonusSoundInstance.Play();
         }
 
         bool CheckCollusion()
@@ -197,6 +210,11 @@ namespace Stride_Asteroids
 
         void ThrustOn()
         {
+            if (thrustSoundInstance.PlayState != PlayState.Playing)
+            {
+                thrustSoundInstance.Play();
+            }
+
             float maxPerSecond = 0.5f;
             float thrustAmount = 0.002f;
 
@@ -223,7 +241,6 @@ namespace Stride_Asteroids
             float deceleration = 0.0025f;
             velocity -= velocity * deceleration;
             flameMesh.Enabled = false;
-
         }
 
         void FireShot()
@@ -232,6 +249,11 @@ namespace Stride_Asteroids
             {
                 if (!shot.IsActive())
                 {
+                    if (fireSoundInstance.PlayState != PlayState.Playing)
+                    {
+                        fireSoundInstance.Play();
+                    }
+
                     float speed = 0.6f;
                     Vector3 dir = Main.instance.VelocityFromAngle(rotation, speed);
                     Vector3 offset = Main.instance.VelocityFromAngle(rotation, radius);
@@ -338,6 +360,21 @@ namespace Stride_Asteroids
             shipFlame = new Entity();
             shipFlame.Add(flameMesh);
             Entity.AddChild(shipFlame);
+        }
+
+        void InitializeAudio()
+        {
+            fireSoundInstance = Content.Load<Sound>("Sounds/PlayerFire").CreateInstance();
+            fireSoundInstance.Volume = 0.15f;
+            //fireSoundInstance.Pitch = 1.75f;
+
+            thrustSoundInstance = Content.Load<Sound>("Sounds/Thrust").CreateInstance();
+            thrustSoundInstance.Volume = 1.75f;
+            //thrustSoundInstance.Pitch = 0.75f;
+
+            bonusSoundInstance = Content.Load<Sound>("Sounds/BonusShip").CreateInstance();
+            bonusSoundInstance.Volume = 0.5f;
+            //bonusSoundInstance.Pitch = 3;
         }
     }
 }

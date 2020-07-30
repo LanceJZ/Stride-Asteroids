@@ -14,6 +14,7 @@ namespace Stride_Asteroids
     {
         TextBlock scoreText;
         TextBlock hiScoreText;
+        public TextBlock gameOver;
         public UIPage page;
         public int hiScore;
 
@@ -22,6 +23,7 @@ namespace Stride_Asteroids
             var root = page.RootElement;
             scoreText = root.FindVisualChildOfType<TextBlock>("ScoreText");
             hiScoreText = root.FindVisualChildOfType<TextBlock>("HiScoreText");
+            gameOver = root.FindVisualChildOfType<TextBlock>("GameOver");
             Main.instance.UIScript = this;
 
             hiScore = Main.instance.ReadHighScore();

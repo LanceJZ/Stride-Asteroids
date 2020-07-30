@@ -9,6 +9,7 @@ using Stride.Engine;
 using Stride.Audio;
 using Stride.UI.Controls;
 using Stride.Particles;
+using Stride.Graphics.SDL;
 
 namespace Stride_Asteroids
 {
@@ -21,7 +22,7 @@ namespace Stride_Asteroids
         public UIText UIScript;
         public bool gameOver = true;
         Player playerScript;
-
+        SoundInstance backgroundSoundInstance;
         FileStream fileStream;
         string fileName = "Score.sav";
         string dataRead = "";
@@ -52,11 +53,14 @@ namespace Stride_Asteroids
                 instance = this;
             }
 
+            Game.Window.Title = "Asteroids Alpha 1.00";
             Prefab playerPrefab;
             playerPrefab = Content.Load<Prefab>("Prefabs/Player");
             Entity playerE = playerPrefab.Instantiate().First();
             SceneSystem.SceneInstance.RootScene.Entities.Add(playerE);
             playerScript = playerE.Components.Get<Player>();
+            backgroundSoundInstance = Content.Load<Sound>("Sounds/AsteroidsBackground").CreateInstance();
+            backgroundSoundInstance.IsLooping = true;
         }
 
         public void NewGame()
@@ -70,7 +74,12 @@ namespace Stride_Asteroids
             rockManagerScript.ResetRocks();
             playerScript.ResetShip();
             playerScript.ShipLives();
+            UFOControlScript.UFOScript.Disable();
+            UFOControlScript.UFOScript.shotScript.Disable();
+            UFOControlScript.ResetTimer();
             highScore = UIScript.hiScore;
+            UIScript.gameOver.Visibility = Stride.UI.Visibility.Hidden;
+            backgroundSoundInstance.Play();
         }
 
         public void UpdateScore(int points)
@@ -82,6 +91,7 @@ namespace Stride_Asteroids
             {
                 lives++;
                 bonusLifeScore += bonusLifeAmount;
+                playerScript.PlayBonusSound();
                 playerScript.ShipLives();
             }
         }
@@ -94,6 +104,8 @@ namespace Stride_Asteroids
             if (lives < 0)
             {
                 gameOver = true;
+                UIScript.gameOver.Visibility = Stride.UI.Visibility.Visible;
+                backgroundSoundInstance.Stop();
 
                 if (score > highScore)
                 {

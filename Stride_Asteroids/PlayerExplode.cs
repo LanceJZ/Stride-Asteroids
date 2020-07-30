@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Stride.Core.Mathematics;
 using Stride.Engine;
+using Stride.Audio;
+using Stride.Media;
 using Stride.Particles.Spawners;
 
 namespace Stride_Asteroids
@@ -12,6 +14,7 @@ namespace Stride_Asteroids
     public class PlayerExplode : Actor
     {
         Line[] shipLines = new Line[6];
+        SoundInstance explodeSoundInstance;
 
         public override void Start()
         {
@@ -25,6 +28,9 @@ namespace Stride_Asteroids
                 shipLines[i] = line.Components.Get<Line>();
             }
 
+            explodeSoundInstance = Content.Load<Sound>("Sounds/PlayerExplosion").CreateInstance();
+            explodeSoundInstance.Volume = 0.5f;
+            explodeSoundInstance.Pitch = 0.5f;
         }
 
         public override void Update()
@@ -33,8 +39,13 @@ namespace Stride_Asteroids
 
         }
 
-        public void Spawn(Vector3 position)
+        public void Explode()
         {
+            if (explodeSoundInstance.PlayState != PlayState.Playing)
+            {
+                explodeSoundInstance.Play();
+            }
+
             foreach (Line line in shipLines)
             {
                 line.Spawn(position + new Vector3(Main.instance.RandomMinMax(-Radius, Radius),

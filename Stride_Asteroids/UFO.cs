@@ -9,6 +9,7 @@ using Stride.Games.Time;
 using Stride.Graphics;
 using Stride.Rendering;
 using Stride.Audio;
+using Stride.Media;
 using Stride.Core.Shaders.Ast;
 
 namespace Stride_Asteroids
@@ -20,6 +21,10 @@ namespace Stride_Asteroids
         ModelComponent UFOMesh;
         ModelComponent UFOTIMesh;
         ModelComponent UFOBIMesh;
+        SoundInstance explodeSoundInstance;
+        SoundInstance largeUFOSoundInstance;
+        SoundInstance smallUFOSoundInstance;
+        SoundInstance fireSoundInstance;
         TimerTick vectorTimer = new TimerTick();
         TimerTick fireTimer = new TimerTick();
         float vectorAmount = 3.15f;
@@ -28,7 +33,6 @@ namespace Stride_Asteroids
         float speed;
         float shotSpeed = 0.3666f;
         int points;
-        //bool done;
 
         UFOType type;
         enum UFOType
@@ -41,6 +45,7 @@ namespace Stride_Asteroids
         {
             base.Start();
 
+            LoadSounds();
             ModelCreation();
             Disable();
             MakeShot();
@@ -54,8 +59,26 @@ namespace Stride_Asteroids
             {
                 base.Update();
 
+                if (!Main.instance.gameOver)
+                {
+                    if (type == UFOType.Large)
+                    {
+                        if (largeUFOSoundInstance.PlayState != PlayState.Playing)
+                        {
+                            largeUFOSoundInstance.Play();
+                        }
+                    }
+                    else
+                    {
+                        if (smallUFOSoundInstance.PlayState != PlayState.Playing)
+                        {
+                            smallUFOSoundInstance.Play();
+                        }
+                    }
+                }
+
                 CheckForCollusion();
-                
+
                 if (position.X > edge.X || position.X < -edge.X)
                 {
                     Disable();
@@ -81,11 +104,12 @@ namespace Stride_Asteroids
 
         public void Spawn(int spawnCount)
         {
+            fireTimer.Reset();
             float spawnPercent = (float)(Math.Pow(0.915, spawnCount / (Main.instance.Wave + 1)) * 100);
 
             if (Main.instance.RandomMinMax(0, 99) < spawnPercent - (Main.instance.Score / 400))
             {
-                
+
                 type = UFOType.Large;
                 UFOentity.Transform.Scale = Vector3.One;
                 points = 200;
@@ -93,7 +117,7 @@ namespace Stride_Asteroids
             }
             else
             {
-                
+
                 type = UFOType.Small;
                 UFOentity.Transform.Scale = Vector3.One * 0.5f;
                 points = 1000;
@@ -140,13 +164,18 @@ namespace Stride_Asteroids
 
         public new void Hit()
         {
-            Spawn(position);
+            if (explodeSoundInstance.PlayState != PlayState.Playing && !Main.instance.gameOver)
+            {
+                explodeSoundInstance.Play();
+            }
+
+            SetExplode();
             Disable();
         }
 
         void CheckForCollusion()
         {
-            foreach(Shot shot in Main.instance.PlayerScript.Shots)
+            foreach (Shot shot in Main.instance.PlayerScript.Shots)
             {
                 if (shot.IsActive())
                 {
@@ -195,6 +224,11 @@ namespace Stride_Asteroids
 
         void Fire()
         {
+            if (fireSoundInstance.PlayState != PlayState.Playing && !Main.instance.gameOver)
+            {
+                fireSoundInstance.Play();
+            }
+
             float angel = 0;
 
             switch (type)
@@ -255,6 +289,18 @@ namespace Stride_Asteroids
             shotE = (shotPrefab.Instantiate().First());
             SceneSystem.SceneInstance.RootScene.Entities.Add(shotE);
             shotScript = shotE.Components.Get<Shot>();
+        }
+
+        void LoadSounds()
+        {
+            explodeSoundInstance = Content.Load<Sound>("Sounds/UFOExplosion").CreateInstance();
+            explodeSoundInstance.Volume = 0.50f;
+            fireSoundInstance = Content.Load<Sound>("Sounds/UFOShot").CreateInstance();
+            fireSoundInstance.Volume = 0.5f;
+            largeUFOSoundInstance = Content.Load<Sound>("Sounds/UFOLarge").CreateInstance();
+            largeUFOSoundInstance.Volume = 0.5f;
+            smallUFOSoundInstance = Content.Load<Sound>("Sounds/UFOSmall").CreateInstance();
+            smallUFOSoundInstance.Volume = 0.5f;
         }
 
         void ModelCreation()

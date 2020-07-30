@@ -39,7 +39,7 @@ namespace Stride_Asteroids
             base.Update();
         }
 
-        public void Spawn(Vector3 position)
+        public void SetExplode()
         {
             foreach (Dot dot in explosionList)
             {

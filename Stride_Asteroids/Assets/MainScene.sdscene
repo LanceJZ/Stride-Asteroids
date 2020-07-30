@@ -32,6 +32,7 @@ Hierarchy:
                         Size: {X: 1.0, Y: 1.0, Z: 1.0}
                     30e2896bedfa51383702a2cee34ec12e: !Stride_Asteroids.UIText,Stride_Asteroids
                         Id: 80ccfadb-2e86-43fb-ab69-3f9de4928374
+                        gameOver: null
                         page: 38f46d03-1843-4f80-bb49-2375660f22bf:Page
                         hiScore: 0
         -   Entity:

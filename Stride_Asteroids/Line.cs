@@ -16,12 +16,12 @@ namespace Stride_Asteroids
         Entity line;
         ModelComponent lineMesh;
         float timerAmount = 0;
-        TimerTick timer = new TimerTick();
+        TimerTick lifeTimer = new TimerTick();
 
         public override void Start()
         {
             base.Start();
-            float size = Main.instance.RandomMinMax(0.000666f, 0.00666f);
+            float size = Main.instance.RandomMinMax(0.003666f, 0.00666f);
             // VertexPositionNormalTexture is the layout that the engine uses in the shaders
             var vBuffer = Stride.Graphics.Buffer.Vertex.New(GraphicsDevice, new VertexPositionNormalTexture[]
             {
@@ -53,9 +53,9 @@ namespace Stride_Asteroids
             if (IsActive())
             {
                 base.Update();
-                timer.Tick();
+                lifeTimer.Tick();
 
-                if (timer.TotalTime.TotalSeconds > timerAmount)
+                if (lifeTimer.TotalTime.TotalSeconds > timerAmount)
                 {
                     Destroy();
                 }
@@ -65,12 +65,12 @@ namespace Stride_Asteroids
         public void Spawn(Vector3 position)
         {
             this.position = position;
-            timer.Reset();
+            lifeTimer.Reset();
             lineMesh.Enabled = true;
             rotation = Main.instance.RandomRadian();
             rotationVelocity = Main.instance.RandomMinMax(-1.5f, 1.5f);
-            timerAmount = Main.instance.RandomMinMax(0.25f, 2.75f);
-            SetVelocity(Main.instance.RandomMinMax(0.01f, 0.025f));
+            timerAmount = Main.instance.RandomMinMax(0.5f, 6.75f);
+            SetVelocity(Main.instance.RandomMinMax(1.5f, 3.5f));
             UpdatePR();
         }
 

@@ -8,6 +8,7 @@ using Stride.Engine;
 using Stride.Games.Time;
 using Stride.Rendering;
 using Stride.Audio;
+using Stride.Media;
 using Stride.Graphics;
 
 namespace Stride_Asteroids
@@ -20,12 +21,15 @@ namespace Stride_Asteroids
         Main.RockSize size;
         Entity rock;
         ModelComponent rockMesh;
+        SoundInstance explodeSoundInstance;
 
         public Main.RockSize Size { get => size; }
 
         public override void Start()
         {
             base.Start();
+            explodeSoundInstance = Content.Load<Sound>("Sounds/RockExplosion").CreateInstance();
+            explodeSoundInstance.Volume = 0.15f;
         }
 
         public override void Update()
@@ -190,23 +194,15 @@ namespace Stride_Asteroids
 
         new void Hit()
         {
-            Spawn(position);
+            if (explodeSoundInstance.PlayState != PlayState.Playing && !Main.instance.gameOver)
+            {
+                explodeSoundInstance.Play();
+            }
+
+            SetExplode();
             hit = true;
             Main.instance.rockManagerScript.RockHit();
             Disable();
-
-            //switch (size)
-            //{
-            //    case Main.RockSize.Large:
-            //        radius = 0.75f;
-            //        break;
-            //    case Main.RockSize.Medium:
-            //        radius = 0.375f;
-            //        break;
-            //    case Main.RockSize.Small:
-            //        radius = 0.188f;
-            //        break;
-            //}
         }
 
         #region RockModels
